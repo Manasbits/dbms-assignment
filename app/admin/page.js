@@ -3,8 +3,10 @@
 import { useState, useEffect } from 'react';
 import Users from './Users';
 import MealPlanEditor from './MealPlanEditor';
+import { useRouter } from 'next/navigation';
 
 export default function AdminPage() {
+  const router = useRouter();
   const [showUsers, setShowUsers] = useState(false);
   const [showMealPlan, setShowMealPlan] = useState(false);
   const [adminData, setAdminData] = useState(null);
@@ -19,6 +21,11 @@ export default function AdminPage() {
   if (!adminData) {
     return <div>Loading...</div>;
   }
+
+  const handleLogout = () => {
+    localStorage.removeItem('userData');
+    router.push('/');
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
@@ -43,6 +50,12 @@ export default function AdminPage() {
               className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200"
             >
               {showMealPlan ? 'Hide Meal Plan' : 'Edit Meal Plan'}
+            </button>
+            <button
+              onClick={handleLogout}
+              className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-200"
+            >
+              Logout
             </button>
           </div>
         </div>
